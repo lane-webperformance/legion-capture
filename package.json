@@ -1,0 +1,29 @@
+{
+  "name": "legion-capture",
+  "version": "0.0.0",
+  "description": "Express.js App to capture metrics.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "eslint ./src/** ./spec/** && jasmine && istanbul cover jasmine",
+    "clean": "rimraf node_modules coverage"
+  },
+  "author": "Christopher Lane Hinson <lane@webperformance.com>",
+  "license": "APSL-2.0",
+  "devDependencies": {
+    "eslint": "^2.10.2",
+    "istanbul": "^0.4.3",
+    "jasmine": "^2.4.1",
+    "legion": "https://github.com/lane-webperformance/legion.git#v0.0.13",
+    "legion-io-fetch": "https://github.com/lane-webperformance/legion-io-fetch.git#v0.0.7",
+    "rimraf": "^2.5.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "legion-metrics": "https://github.com/lane-webperformance/legion-metrics.git#v0.0.6",
+    "lokijs": "^1.3.19",
+    "node-fetch": "^1.5.3",
+    "node-uuid": "^1.4.7"
+  }
+}
