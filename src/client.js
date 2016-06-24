@@ -10,6 +10,8 @@ const sourceHost = os.hostname() + ':' + uuid.v4();
 const Client = {
 };
 
+module.exports.prototype = Client;
+
 module.exports.create = function(endpoint) {
   return Object.assign(Object.create(Client), {
     _endpoint: endpoint
