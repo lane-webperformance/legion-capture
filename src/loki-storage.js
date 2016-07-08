@@ -8,6 +8,9 @@ const LokiStorage = {
 };
 
 LokiStorage.store = function(captive) {
+  if(this._loki.findOne({ unique_id : captive.unique_id }))  //idempotence
+    return;
+
   this._loki.insert(captive);
 };
 

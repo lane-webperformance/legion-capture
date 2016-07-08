@@ -61,6 +61,20 @@ describe('The legion-capture server', function() {
     }).catch(done.fail);
   });
 
+  it('can POST a lot of idempotent blobs of metrics and then GET only one back', function(done) {
+    const x = metrics.sample({ x: { value : 25 } });
+    const legion_client = capture.client.create(this.endpoint);
+    const post = () => legion_client.postMetrics(x, { project_key: 'my-project-key', min_timestamp: 1000, max_timestamp: 2000, unique_id: 'the-same-id-every-time' });
+
+    Promise.all([post(),post(),post(),post(),post()]).then(() => {
+      return legion_client.getMetrics({ projectKey: 'my-project-key' });
+    }).then(json => {
+      expect(json.values.x.$avg.avg).toBe(25);
+      expect(json.values.x.$avg.size).toBe(1);
+      done();
+    }).catch(done.fail);
+  });
+
   it('validates responses that should be empty', function(done) {
     const legion_client = capture.client.create(this.endpoint);
 
