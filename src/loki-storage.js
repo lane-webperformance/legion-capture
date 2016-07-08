@@ -14,8 +14,8 @@ LokiStorage.store = function(captive) {
 LokiStorage.fetch = function(by) {
   const query = this._loki.chain();
 
-  if( by.projectKey )
-    query.find({ projectKey: { $eq: by.projectKey } });
+  if( by.project_key )
+    query.find({ project_key: { $eq: by.project_key } });
 
   let result = null;
 
@@ -28,7 +28,11 @@ LokiStorage.fetch = function(by) {
 
 module.exports.create = function() {
   const result = Object.assign(Object.create(LokiStorage), {
-    _loki : new loki.Collection('metrics', { indices: [ 'projectKey', 'minTime', 'maxTime', 'sourceHost' ] })
+    _loki : new loki.Collection('metrics', { indices: [
+      'project_key',
+      'min_timestamp', 'max_timestamp',
+      'unique_id',
+      'hostname', 'pid', 'what' ] })
   });
 
   return result;

@@ -2,6 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const uuid = require('node-uuid');
 
 module.exports.metrics = function() {
   const database = require('./loki-storage').create();
@@ -18,9 +19,8 @@ module.exports.metrics = function() {
 
   app.post('/metrics', function(req,res) {
     res.setHeader('content-type', 'application/json');
-    const capture_object = req.body;
 
-    database.store(capture_object);
+    database.store(cleanup(req.body));
 
     res.sendStatus(204);
   });
@@ -40,3 +40,24 @@ module.exports.listen = function() {
 
   return app.listen.apply(app, arguments);
 };
+
+/*
+ * Cleanup the JSON object we just received, for example, by filling in
+ * missing metadata, or (worst case) throwing an exception if something
+ * is horribly wrong with it.
+ */
+function cleanup(json_metrics) {
+  if( typeof json_metrics !== 'object' )
+    throw new Error('Not a JSON object, was: ' + typeof json_metrics);
+
+  if( !json_metrics.project_key )
+    throw new Error('Metrics object did not contain a required project_key field.');
+
+  const now = Date.now();
+  json_metrics.data          = json_metrics.data          || {};
+  json_metrics.min_timestamp = json_metrics.min_timestamp || now;
+  json_metrics.max_timestamp = json_metrics.max_timestamp || now;
+  json_metrics.unique_id     = json_metrics.unique_id     || uuid.v4();
+
+  return json_metrics;
+}

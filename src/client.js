@@ -4,8 +4,11 @@ const fetch = require('node-fetch');
 const os = require('os');
 const uuid = require('node-uuid');
 const querystring = require('querystring');
+const package_json = require('../package');
 
-const sourceHost = os.hostname() + ':' + uuid.v4();
+const hostname = os.hostname();
+const pid = process.pid + ' ' + uuid.v4();
+const what = package_json.name + ' ' + package_json.version + ' (node ' + process.version + ')';
 
 const Client = {
 };
@@ -18,12 +21,26 @@ module.exports.create = function(endpoint) {
   });
 };
 
-Client.postMetrics = function(project_key, sample) {
+Client.postMetrics = function(sample, metadata) {
+  if( typeof metadata.project_key !== 'string' )
+    throw Error('metadata.project_key : string, is a required metadata');
+
+  if( !Number.isInteger(metadata.min_timestamp) )
+    throw Error('metadata.min_timestamp : integer is a required metadata');
+
+  if( !Number.isInteger(metadata.max_timestamp) )
+    throw Error('metadata.max_timestamp : integer is a required metadata');
+
   const message = {};
 
-  message.data = sample.summarize();
-  message.projectKey = project_key;
-  message.sourceHost = sourceHost;
+  message.data          = sample.summarize();
+  message.project_key   = metadata.project_key;
+  message.min_timestamp = metadata.min_timestamp;
+  message.max_timestamp = metadata.max_timestamp;
+  message.hostname      = metadata.hostname || hostname;
+  message.pid           = metadata.pid || pid;
+  message.what          = metadata.what || what;
+  message.unique_id     = metadata.unique_id || uuid.v4();
 
   return fetch(this._endpoint + '/metrics', {
     method: 'POST',
