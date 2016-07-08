@@ -19,10 +19,17 @@ module.exports.metrics = function() {
 
   app.post('/metrics', function(req,res) {
     res.setHeader('content-type', 'application/json');
+    const item_blob = cleanup(req.body);
 
-    database.store(cleanup(req.body));
-
-    res.sendStatus(204);
+    if( item_blob instanceof Error ) {
+      res.status(400).json({
+        status: 'failure',
+        reason: item_blob.message
+      });
+    } else {
+      database.store(cleanup(req.body));
+      res.sendStatus(204);
+    }
   });
 
   return app;
@@ -43,20 +50,21 @@ module.exports.listen = function() {
 
 /*
  * Cleanup the JSON object we just received, for example, by filling in
- * missing metadata, or (worst case) throwing an exception if something
- * is horribly wrong with it.
+ * missing metadata.
+ *
+ * Will return an error if something is horribly wrong with the input.
  */
 function cleanup(json_metrics) {
   if( typeof json_metrics !== 'object' )
-    throw new Error('Not a JSON object, was: ' + typeof json_metrics);
+    return new Error('Not a JSON object, was: ' + typeof json_metrics);
 
   if( !json_metrics.project_key )
-    throw new Error('Metrics object did not contain a required project_key field.');
+    return new Error('Metrics object did not contain a required project_key field.');
 
   const now = Date.now();
   json_metrics.data          = json_metrics.data          || {};
-  json_metrics.min_timestamp = json_metrics.min_timestamp || now;
-  json_metrics.max_timestamp = json_metrics.max_timestamp || now;
+  json_metrics.min_timestamp = Number.isInteger(json_metrics.min_timestamp) ? json_metrics.min_timestamp : now;
+  json_metrics.max_timestamp = Number.isInteger(json_metrics.max_timestamp) ? json_metrics.max_timestamp : now;
   json_metrics.unique_id     = json_metrics.unique_id     || uuid.v4();
 
   return json_metrics;

@@ -4,6 +4,6 @@
 
 const port = 8000;
 
-require('./index').listen(port, function() {
+require('./index').server.listen(port, function() {
   console.log('legion-capture listening on port ' + port + '.');
 });

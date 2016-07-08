@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "bin": "src/main.js",
   "scripts": {
-    "start": "node src/main.js",
+    "start": "forever --spinSleepTime 250 --minUptime 1000 src/main.js",
     "test": "eslint ./src/** ./spec/** && jasmine && istanbul cover jasmine",
     "clean": "rimraf node_modules coverage"
   },
@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
+    "forever": "^0.15.2",
     "legion-metrics": "https://github.com/lane-webperformance/legion-metrics.git#v0.0.10",
     "lokijs": "^1.3.19",
     "node-fetch": "^1.5.3",

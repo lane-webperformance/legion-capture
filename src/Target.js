@@ -14,7 +14,6 @@ module.exports.create = function(merge, endpoint, interval, metadata) {
  */
 function captureMetrics(endpoint, interval, metadata) {
   console.log('Streaming metrics to: ' + endpoint + ' every ' + interval + ' ms'); //eslint-disable-line no-console
-  console.log('Streaming metadata is: ' + JSON.stringify(metadata));               //eslint-disable-line no-console
 
   const endpoint_client = client.create(endpoint);
   let last_fork = 0;
