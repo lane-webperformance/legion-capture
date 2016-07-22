@@ -15,7 +15,8 @@
     "eslint": "^2.10.2",
     "istanbul": "^0.4.3",
     "jasmine": "^2.4.1",
-    "rimraf": "^2.5.2"
+    "rimraf": "^2.5.2",
+    "uuid-v4": "^0.1.0"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
