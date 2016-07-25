@@ -45,8 +45,7 @@ function captureMetrics(endpoint, interval, metadata) {
       return endpoint_client.postMetrics(metrics.summary(summary), Object.assign({}, metadata, { min_timestamp : start, max_timestamp : end }));
     }).catch(err => {
       console.error('problem reporting metrics ' + err);  //eslint-disable-line no-console
-      metrics_target.receiver().tag(metrics.tags.generic('tasks','capture-metrics')).receive(metrics.problem(err));
-    }).catch(console.error);  //eslint-disable-line no-console
+    });
   };
 }
 
