@@ -29,6 +29,18 @@ LokiStorage.fetch = function(by) {
   return result;
 };
 
+/*
+ * Simply close the database, which isn't relevant to an
+ * in-memory design.
+ */
+LokiStorage.close = function() {
+  this._loki.clear();  //Can't "close" collection, must init it instead.
+};
+
+LokiStorage.init = function() {
+  this._loki.clear();  //Can't "close" collection, must init it instead.
+};
+
 module.exports.create = function() {
   const result = Object.assign(Object.create(LokiStorage), {
     _loki : new loki.Collection('metrics', { indices: [

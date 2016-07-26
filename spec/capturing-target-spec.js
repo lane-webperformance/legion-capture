@@ -4,10 +4,14 @@ const metrics = require('legion-metrics');
 const capture = require('../src/index');
 const delay = require('promise-delay');
 
+const db = require('../src/loki-storage').create();
+//const db = require('../src/file-storage').create();
+const server = capture.server.create(db);
+
 describe('The capturing metrics Target', function() {
   beforeEach(function() {
     this.port = 4312;
-    this.server = capture.server.listen(this.port);
+    this.server = server.listen(this.port);
     this.endpoint = 'http://localhost:' + this.port;
   });
 
