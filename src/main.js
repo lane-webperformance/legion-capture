@@ -24,6 +24,12 @@ const cli_option_definitions = [
     type: String,
     typeLabel: '[underline]{memory|file}',
     description: 'destination for performance metrics. (default=memory)'
+  },
+  {
+    name: 'file-directory',
+    type: String,
+    typeLabel: '[underline]{complete directory path}',
+    description: 'destination directory for performance metrics. (default=src file location)'
   }
 ];
 

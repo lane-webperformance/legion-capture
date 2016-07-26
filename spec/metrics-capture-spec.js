@@ -4,8 +4,8 @@ const capture = require('../src/index');
 const metrics = require('legion-metrics');
 const fetch = require('node-fetch');
 
-//const db = require('../src/file-storage').create();
-const db = require('../src/loki-storage').create();
+const db = require('../src/file-storage').create();
+//const db = require('../src/loki-storage').create();
 const server = capture.server.create(db);
 
 describe('The legion-capture server', function ()
@@ -20,7 +20,7 @@ describe('The legion-capture server', function ()
   afterEach(function ()
   {
     this.server.close();
-    db.close();
+    db.delete();
   });
 
   it('can POST a blob of metrics and then GET them back', function (done)
