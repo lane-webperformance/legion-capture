@@ -4,7 +4,7 @@ const uuid = require('uuid-v4');
 const fileSystem = require('fs');
 const path = require('path');
 const metrics = require('legion-metrics');
-const directory = 'captured-data-files';
+var directory = 'captured-data-files';
 
 module.exports.store = function (blob) {
   var filename = uuid();
@@ -80,7 +80,7 @@ module.exports.delete = function () {
   });
    */
 
-        // Using sync design until unit tests pass reliably.
+  // Using sync design until unit tests pass reliably.
   var dir = path.join(__dirname, directory);
   var filenames = fileSystem.readdirSync(dir);
   var len = filenames.length;
@@ -90,9 +90,10 @@ module.exports.delete = function () {
   }
 };
 
-module.exports.create = function () {
+module.exports.create = function (user_specified_directory) {
   // Make sure directory exists to store data
-  let dir = path.join(__dirname, directory);
+  directory = user_specified_directory;
+  let dir = path.join(__dirname, user_specified_directory);
   if (!fileSystem.existsSync(dir))
     fileSystem.mkdirSync(dir);
   return this;

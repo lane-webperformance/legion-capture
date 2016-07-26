@@ -4,7 +4,7 @@ const capture = require('../src/index');
 const metrics = require('legion-metrics');
 const fetch = require('node-fetch');
 
-const db = require('../src/file-storage').create();
+const db = require('../src/file-storage').create('captured-data-files');
 //const db = require('../src/loki-storage').create();
 const server = capture.server.create(db);
 

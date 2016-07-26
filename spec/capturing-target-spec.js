@@ -5,7 +5,7 @@ const capture = require('../src/index');
 const delay = require('promise-delay');
 
 //const db = require('../src/loki-storage').create();
-const db = require('../src/file-storage').create();
+const db = require('../src/file-storage').create('captured-data-files');
 const server = capture.server.create(db);
 
 describe('The capturing metrics Target', function() {

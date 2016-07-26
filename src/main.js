@@ -7,7 +7,7 @@
  */
 const port = 8000;
 const storage = 'memory';
-
+const directory = 'captured-data-files';
 const cli = require('command-line-args');
 const commandLineUsage = require('command-line-usage');
 
@@ -26,7 +26,7 @@ const cli_option_definitions = [
     description: 'destination for performance metrics. (default=memory)'
   },
   {
-    name: 'file-directory',
+    name: 'directory',
     type: String,
     typeLabel: '[underline]{complete directory path}',
     description: 'destination directory for performance metrics. (default=src file location)'
@@ -64,9 +64,10 @@ if (options.help)
 
 options.port = options.port || port;
 options.storage = options.storage || storage;
+options.directory = options.directory || directory;
 
 // Default to file storage if memory isn't specified.
-var db = options.storage == 'memory' ? require('./loki-storage').create() : require('./file-storage').create();
+var db = options.storage == 'memory' ? require('./loki-storage').create() : require('./file-storage').create(options.directory);
 var server = require('./index').server.create(db);
 
 server.listen(options.port, function ()
