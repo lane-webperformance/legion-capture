@@ -40,7 +40,7 @@ describe('The legion-capture server', function ()
     }).catch(done.fail);
   });
 
-  it('can GET a null blob of metrics from an uninitialized projectKey', function (done)
+  it('can GET a null blob of metrics from an uninitialized project_key', function (done)
   {
     const legion_client = capture.client.create(this.endpoint);
 
@@ -74,7 +74,7 @@ describe('The legion-capture server', function ()
 
     Promise.all([post(), post(), post(), post(), post()]).then(() =>
     {
-      return legion_client.getMetrics({projectKey: 'my-project-key'});
+      return legion_client.getMetrics({project_key: 'my-project-key'});
     }).then(json =>
     {
       expect(json.values.x.$avg.avg).toBe(25);
@@ -96,7 +96,7 @@ describe('The legion-capture server', function ()
 
     Promise.all([post(), post(), post(), post(), post()]).then(() =>
     {
-      return legion_client.getMetrics({projectKey: 'my-project-key'});
+      return legion_client.getMetrics({project_key: 'my-project-key'});
     }).then(json =>
     {
       expect(json.values.x.$avg.avg).toBe(25);
@@ -177,4 +177,3 @@ describe('The legion-capture server', function ()
     }).catch(done.fail);
   });
 });
-

@@ -25,7 +25,8 @@ module.exports.fetch = function (by) {
   // Using sync design until unit tests pass reliably.
   var filenames = fileSystem.readdirSync(dir);
   var len = filenames.length;
-  for( var i = 0; i < len; i++) {
+  for (var i = 0; i < len; i++)
+  {
     var rawblob = fileSystem.readFileSync(path.join(dir, filenames[i]), 'utf-8');
     var blob = JSON.parse(rawblob);
     if (blob.project_key == by.project_key)
@@ -34,7 +35,7 @@ module.exports.fetch = function (by) {
 
   //@TODO Convert to Promise design
   /**
-  fileSystem.readdir(dir, function (err, filenames) {
+   fileSystem.readdir(dir, function (err, filenames) {
     if (err)
       throw err;
 
@@ -49,7 +50,7 @@ module.exports.fetch = function (by) {
       });
     });
   });
-*/
+   */
 
   return result;
 };
@@ -58,9 +59,10 @@ module.exports.fetch = function (by) {
  * Delete all database content, useful for unit tests.
  */
 module.exports.delete = function () {
-  let dir = path.join(__dirname, directory);
 
-  fileSystem.readdir(dir, function (err, filenames) {
+  //@TODO Convert to Promise design
+  /**
+   fileSystem.readdir(dir, function (err, filenames) {
     if (err)
       throw err;
 
@@ -76,6 +78,16 @@ module.exports.delete = function () {
       });
     });
   });
+   */
+
+        // Using sync design until unit tests pass reliably.
+  var dir = path.join(__dirname, directory);
+  var filenames = fileSystem.readdirSync(dir);
+  var len = filenames.length;
+  for (var i = 0; i < len; i++)
+  {
+    fileSystem.unlinkSync(path.join(dir, filenames[i]));
+  }
 };
 
 module.exports.create = function () {

@@ -36,15 +36,15 @@ Create a client.
 Get a statistical summary of all metrics that satisfy the given filter.
 
  * filter - a query filter with the following fields:
-   * projectKey - the unique identifier for a project
+   * project_key - the unique identifier for a project
 
-#### capture.client.prototype.postMetrics(projectKey, sample)
+#### capture.client.prototype.postMetrics(project_key, sample)
 
 Post a new metrics item to the capture server. A metrics item is
 an object that supports the summarize() method, such as the objects
 created by sample() or problem() in the legion-metrics library.
 
- * projectKey - the unique identifier for a project
+ * project_key - the unique identifier for a project
  * sample - a summarizable metrics sample object
 
 ### capture.server
