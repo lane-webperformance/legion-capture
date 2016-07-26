@@ -18,8 +18,7 @@
     "rimraf": "^2.5.2",
     "command-line-usage": "^3.0.3",
     "command-line-args": "^3.0.0",
-    "uuid-v4": "^0.1.0"
-
+    "object-hash": "^0.0.6"
   },
   "dependencies": {
     "body-parser": "^1.15.1",

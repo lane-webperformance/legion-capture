@@ -1,21 +1,22 @@
 'use strict';
 
-const uuid = require('uuid-v4');
 const fileSystem = require('fs');
 const path = require('path');
 const metrics = require('legion-metrics');
+const hash = require('object-hash');
 var directory = 'captured-data-files';
 
 module.exports.store = function (blob) {
-  var filename = uuid();
-  fileSystem.writeFileSync(path.join(__dirname, directory, filename), JSON.stringify(blob));
+  var filename = hash(blob.unique_id);
 
-  //@TODO Convert to Promise design
+  // Old synchronous version
+  //fileSystem.writeFileSync(path.join(__dirname, directory, filename), JSON.stringify(blob));
+
   //Async version
-  //fileSystem.writeFile(path.join(__dirname, directory, filename), JSON.stringify(blob), function (err) {
-  //  if (err)
-  //    throw err;
-  //});
+  fileSystem.writeFile(path.join(__dirname, directory, filename), JSON.stringify(blob), function (err) {
+    if (err)
+      throw err;
+  });
 };
 
 module.exports.fetch = function (by) {
@@ -59,33 +60,10 @@ module.exports.fetch = function (by) {
  * Delete all database content, useful for unit tests.
  */
 module.exports.delete = function () {
-
-  //@TODO Convert to Promise design
-  /**
-   fileSystem.readdir(dir, function (err, filenames) {
-    if (err)
-      throw err;
-
-    filenames.forEach(function (filename) {
-      fileSystem.exists(path.join(dir, filename), function (doesit) {
-        if (doesit)
-        {
-          fileSystem.unlink(path.join(dir, filename), function (err) {
-            if (err) { true; }
-
-          });
-        }
-      });
-    });
-  });
-   */
-
-  // Using sync design until unit tests pass reliably.
   var dir = path.join(__dirname, directory);
   var filenames = fileSystem.readdirSync(dir);
   var len = filenames.length;
-  for (var i = 0; i < len; i++)
-  {
+  for (var i = 0; i < len; i++) {
     fileSystem.unlinkSync(path.join(dir, filenames[i]));
   }
 };

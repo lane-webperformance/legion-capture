@@ -30,14 +30,9 @@ LokiStorage.fetch = function(by) {
 };
 
 /*
- * Simply close the database, which isn't relevant to an
- * in-memory design.
+ * Clear everything from the database, useful for unit tests.
  */
-LokiStorage.close = function() {
-  this._loki.clear();  //Can't "close" collection, must init it instead.
-};
-
-LokiStorage.init = function() {
+LokiStorage.delete = function() {
   this._loki.clear();  //Can't "close" collection, must init it instead.
 };
 
