@@ -18,7 +18,7 @@ module.exports.metrics = function(storage) {
     });
   });
 
-  app.post('/metrics', function(req,res) {
+  app.post('/metrics', (req,res)=> {
     res.setHeader('content-type', 'application/json');
     const item_blob = cleanup(req.body);
 

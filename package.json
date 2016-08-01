@@ -18,7 +18,7 @@
     "rimraf": "^2.5.2",
     "command-line-usage": "^3.0.3",
     "command-line-args": "^3.0.0",
-    "object-hash": "^0.0.6"
+    "object-hash": "^1.1.4"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
