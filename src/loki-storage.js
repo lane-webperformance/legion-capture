@@ -29,6 +29,13 @@ LokiStorage.fetch = function(by) {
   return result;
 };
 
+/*
+ * Clear everything from the database, useful for unit tests.
+ */
+LokiStorage.delete = function() {
+  this._loki.clear();  //Can't "close" collection, must init it instead.
+};
+
 module.exports.create = function() {
   const result = Object.assign(Object.create(LokiStorage), {
     _loki : new loki.Collection('metrics', { indices: [

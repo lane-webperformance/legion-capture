@@ -4,8 +4,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const uuid = require('node-uuid');
 
-module.exports.metrics = function() {
-  const database = require('./loki-storage').create();
+// The module that handles storing things
+
+module.exports.metrics = function(storage) {
   const app = express();
 
   app.get('/metrics', function(req,res) {
@@ -13,11 +14,11 @@ module.exports.metrics = function() {
 
     res.json({
       status : 'success',
-      data : database.fetch(req.query)
+      data : storage.fetch(req.query)
     });
   });
 
-  app.post('/metrics', function(req,res) {
+  app.post('/metrics', (req,res)=> {
     res.setHeader('content-type', 'application/json');
     const item_blob = cleanup(req.body);
 
@@ -27,7 +28,7 @@ module.exports.metrics = function() {
         reason: item_blob.message
       });
     } else {
-      database.store(cleanup(req.body));
+      storage.store(cleanup(req.body));
       res.sendStatus(204);
     }
   });
@@ -39,13 +40,20 @@ module.exports.metrics = function() {
 // listen
 ///////////////////////////////////////////////////////////////////////////////
 
-module.exports.listen = function() {
+//module.exports.listen = function( app ) {
+//  return app.listen.apply(app, arguments);
+//};
+
+/*
+ * storage:  A function that represents a database with store and fetch
+ * functions.
+ */
+module.exports.create = function( storage ) {
   const app = express();
-
   app.use(bodyParser.json({}))
-     .use(this.metrics());
+          .use(this.metrics( storage ));
 
-  return app.listen.apply(app, arguments);
+  return app;
 };
 
 /*
