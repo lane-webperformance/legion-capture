@@ -29,8 +29,7 @@ describe('The legion-capture server', function() {
 
     legion_client.getMetrics({ project_key: 'my-project-key' }).then(json => {
       expect(json).toEqual(null);
-      done();
-    }).catch(done.fail);
+    }).then(done).catch(done.fail);
   });
 
   it('can POST a blob of metrics and then GET them back', function(done) {
@@ -43,8 +42,7 @@ describe('The legion-capture server', function() {
     }).then(json => {
       expect(json.values.x.$avg.avg).toBe(25);
       expect(json.values.x.$avg.size).toBe(1);
-      done();
-    }).catch(done.fail);
+    }).then(done).catch(done.fail);
   });
 
   it('can POST a lot of blobs of metrics and then GET them back', function(done) {
@@ -57,8 +55,7 @@ describe('The legion-capture server', function() {
     }).then(json => {
       expect(json.values.x.$avg.avg).toBe(25);
       expect(json.values.x.$avg.size).toBe(5);
-      done();
-    }).catch(done.fail);
+    }).then(done).catch(done.fail);
   });
 
   it('can POST a lot of idempotent blobs of metrics and then GET only one back', function(done) {
@@ -71,8 +68,7 @@ describe('The legion-capture server', function() {
     }).then(json => {
       expect(json.values.x.$avg.avg).toBe(25);
       expect(json.values.x.$avg.size).toBe(1);
-      done();
-    }).catch(done.fail);
+    }).then(done).catch(done.fail);
   });
 
   it('validates responses that should be empty', function(done) {
@@ -103,7 +99,6 @@ describe('The legion-capture server', function() {
   });
 
   it('rejects POSTS without a project key', function(done) {
-    console.error('We\'re about to intentionally provoke an error due to a missing project_key field:');  // eslint-disable-line no-console
     fetch(this.endpoint + '/metrics', {
       method: 'POST',
       headers: {
@@ -112,21 +107,7 @@ describe('The legion-capture server', function() {
       body: JSON.stringify({ data: { foo: 2 } })
     }).then(res => {
       expect(res.ok).toBe(false);
-      done();
-    }).catch(done.fail);
-  });
-
-  it('rejects nonsense POSTS', function(done) {
-    fetch(this.endpoint + '/metrics', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(24)
-    }).then(res => {
-      expect(res.ok).toBe(false);
-      done();
-    }).catch(done.fail);
+    }).then(done).catch(done.fail);
   });
 });
 

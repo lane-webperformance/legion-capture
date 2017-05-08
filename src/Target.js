@@ -19,13 +19,13 @@ function captureMetrics(endpoint, interval, metadata) {
   let last_fork = 0;
 
   // The idea here is that we want to segment all of time into intervals,
-  // each with a duration of 'interval' in milliseconds.
+  // each with a duration of 'interval' in milliseconds, so that we can
+  // pick any moment in time and assign it to an interval. If multiple
+  // machines are using the same interval size and their clocks are
+  // synchronized, segment time in the exact same way.
+  //
   // Each time we receive a new metric, if we have not already done so,
   // we schedule a collection event for the end of the current interval.
-  //
-  // In principle, insomuch as all machine's clocks are synchronized, this will
-  // mean that we will capture the same intervals across all machines. This may
-  // be beneficial during data analysis later.
   return metrics_target => {
     const now = Date.now();
     const start = getIntervalStart(now,interval);

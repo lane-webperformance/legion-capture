@@ -55,9 +55,6 @@ module.exports.listen = function() {
  * Will return an error if something is horribly wrong with the input.
  */
 function cleanup(json_metrics) {
-  if( typeof json_metrics !== 'object' )
-    return new Error('Not a JSON object, was: ' + typeof json_metrics);
-
   if( !json_metrics.project_key )
     return new Error('Metrics object did not contain a required project_key field.');
 

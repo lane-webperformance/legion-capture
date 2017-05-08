@@ -50,8 +50,7 @@ describe('The capturing metrics Target', function() {
       .then(json => {
         expect(json.tags.everything.everything.values.x.$avg.avg).toBe(25);
         expect(json.tags.everything.everything.values.x.$avg.size).toBe(9);
-        done();
-      }).catch(done.fail);
+      }).then(done).catch(done.fail);
   });
 });
 
