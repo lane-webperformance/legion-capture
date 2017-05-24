@@ -21,7 +21,7 @@
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "forever": "^0.15.2",
-    "legion-metrics": "https://github.com/lane-webperformance/legion-metrics#v0.0.34",
+    "legion-metrics": "https://github.com/lane-webperformance/legion-metrics#v0.0.35",
     "lokijs": "^1.3.19",
     "node-fetch": "^1.5.3",
     "node-uuid": "^1.4.7",
