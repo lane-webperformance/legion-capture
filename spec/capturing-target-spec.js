@@ -43,9 +43,8 @@ describe('The capturing metrics Target', function() {
         expect(json.tags.everything.everything.values.x.$avg.size).toBe(8);
       })
       .then(() => delay(3000))
-      .then(() => {
-        expect(target.get()).toBe(null);
-      })
+      .then(() => target.get())
+      .then(x => expect(x).toBe(null))
       .then(() => client.getMetrics({ project_key: 'my-project-key' }))
       .then(json => {
         expect(json.tags.everything.everything.values.x.$avg.avg).toBe(25);
