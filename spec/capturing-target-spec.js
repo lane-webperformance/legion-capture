@@ -17,7 +17,7 @@ describe('The capturing metrics Target', function() {
 
   it('can stream metrics to the capture server', function(done) {
     const target = capture.Target.create(metrics.merge, this.endpoint, 500, { project_key: 'my-project-key' });
-    const client = capture.client.create(this.endpoint);
+    const client = capture.client.remote.create(this.endpoint);
     const x = metrics.sample({ x: { value : 25 } });
 
     function doASample(when) {
@@ -39,16 +39,16 @@ describe('The capturing metrics Target', function() {
     delay(1000)
       .then(() => client.getMetrics({ project_key: 'my-project-key' }))
       .then(json => {
-        expect(json.tags.everything.everything.values.x.$avg.avg).toBe(25);
-        expect(json.tags.everything.everything.values.x.$avg.size).toBe(8);
+        expect(json.data.tags.everything.everything.values.x.$avg.avg).toBe(25);
+        expect(json.data.tags.everything.everything.values.x.$avg.size).toBe(8);
       })
       .then(() => delay(3000))
       .then(() => target.get())
       .then(x => expect(x).toBe(null))
       .then(() => client.getMetrics({ project_key: 'my-project-key' }))
       .then(json => {
-        expect(json.tags.everything.everything.values.x.$avg.avg).toBe(25);
-        expect(json.tags.everything.everything.values.x.$avg.size).toBe(9);
+        expect(json.data.tags.everything.everything.values.x.$avg.avg).toBe(25);
+        expect(json.data.tags.everything.everything.values.x.$avg.size).toBe(9);
       }).then(done).catch(done.fail);
   });
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-const client = require('./client');
+const client = require('./remote-client');
 const metrics = require('legion-metrics');
 const delay = require('promise-delay');
 
@@ -44,7 +44,7 @@ function captureMetrics(endpoint, interval, metadata) {
       .then(() => metrics_target.clear())
       .then(summary => {
         if( summary )
-          return endpoint_client.postMetrics(metrics.summary(summary), Object.assign({}, metadata, { min_timestamp : start, max_timestamp : end }));
+          return endpoint_client.postMetrics({ data : summary, metadata : Object.assign({}, metadata, { min_timestamp : start, max_timestamp : end }) });
       }).catch(err => {
         console.error('problem reporting metrics ' + err);  //eslint-disable-line no-console
       }).then(() => {});

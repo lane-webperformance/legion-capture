@@ -2,7 +2,7 @@
 Legion Capture
 --------------
 
-Legion-capture is a library, and executable, that captures statistical
+Legion-capture is a library and executable that captures statistical
 data from external sources. This package contains both the client
 and server components.
 
@@ -11,31 +11,45 @@ and server components.
 Reference
 ---------
 
-### capture.client
+### capture.client.loki
+
+A loki.js implementation of a metrics database. Conforms to the same API as the capture.client.remote.
+
+### capture.client.remote
 
 The client API.
 
-#### capture.client.create(endpoint)
+#### capture.client.remote.create(endpoint)
 
 Create a client.
 
  * endpoint - the URL of the capture server
 
-#### capture.client.prototype.getMetrics(filter)
+#### capture.client.remote.prototype.getMetrics(filter)
 
 Get a statistical summary of all metrics that satisfy the given filter.
 
  * filter - a query filter with the following fields:
-   * projectKey - the unique identifier for a project
+   * project\_key - the unique identifier for a project
 
-#### capture.client.prototype.postMetrics(projectKey, sample)
+Returns a promise containing:
 
-Post a new metrics item to the capture server. A metrics item is an object that
-supports the summarize() method, such as the objects created by sample()
-or problem() in the legion-metrics library.
+ * data - the blob of metrics
+ * metadata - various metadata, including:
+   * project\_key - the unique identifier for a project
+   * min\_timestamp - the starting timestamp of the metrics capture
+   * max\_timestamp - the ending timestamp of the metrics capture
 
- * projectKey - the unique identifier for a project
- * sample - a summarizable metrics sample object
+#### capture.client.remote.prototype.postMetrics(blob)
+
+Post a new metrics item to the capture server.
+
+ * blob - A JSON object containing:
+   * data - the blob of metrics
+   * metadata - various metadata, including:
+     * project\_key - the unique identifier for a project
+     * min\_timestamp - the starting timestamp of the metrics capture
+     * max\_timestamp - the ending timestamp of the metrics capture
 
 ### capture.server
 
