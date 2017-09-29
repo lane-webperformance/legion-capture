@@ -50,10 +50,12 @@ LokiStorage.getMetrics = function(by) {
   };
  
   query.data().forEach(blob => {
-    result.data = metrics.merge.root(result.data,blob.data);
+    result.data = metrics.merge.algorithm(result.data,blob.data);
     result.metadata.min_timestamp = Math.min(result.metadata.min_timestamp, blob.metadata.min_timestamp);
     result.metadata.max_timestamp = Math.max(result.metadata.min_timestamp, blob.metadata.min_timestamp);
   });
+
+  result.data = JSON.parse(JSON.stringify(result.data));
 
   return Promise.resolve(validate(result));
 };

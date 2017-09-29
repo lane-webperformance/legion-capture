@@ -11,7 +11,7 @@ const what = package_json.name + ' ' + package_json.version + ' (node ' + proces
 
 const schema = {
   id: '/ItemBlob',
-  type: 'object',
+  type: ['object'],
   properties: {
     data: { type: ['object','null'] },
     metadata: {
@@ -28,9 +28,14 @@ const schema = {
       required: ['project_key', 'min_timestamp', 'max_timestamp'],
       additionalProperties: false
     },
-    status: { type: 'string', pattern: 'success' }
+    status: { type: 'string', pattern: 'success' },
+    items: { type: ['array','null'] },
+    table: { type: ['array','null'] }
   },
-  required: ['data','metadata'],
+  dependencies: {
+    data: ['metadata'],
+    metadata: ['data']
+  },
   additionalProperties: false
 };
 
@@ -46,7 +51,11 @@ module.exports = function(item_blob) {
     unique_id: uuid.v4()
   };
 
-  item_blob.metadata = Object.assign({}, default_metadata, item_blob.metadata);
+  if( item_blob.metadata )
+    item_blob.metadata = Object.assign({}, default_metadata, item_blob.metadata);
+
+  if( item_blob.items )
+    item_blob.items = item_blob.items.map(module.exports);
 
   return item_blob;
 };

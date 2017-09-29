@@ -7,7 +7,7 @@ const delay = require('promise-delay');
 describe('The capturing metrics Target', function() {
   beforeEach(function() {
     this.port = 4312;
-    this.server = capture.server.listen(this.port);
+    this.server = capture.server.metrics(capture.client.loki.create()).listen(this.port);
     this.endpoint = 'http://localhost:' + this.port;
   });
 
@@ -16,7 +16,7 @@ describe('The capturing metrics Target', function() {
   });
 
   it('can stream metrics to the capture server', function(done) {
-    const target = capture.Target.create(metrics.merge, this.endpoint, 500, { project_key: 'my-project-key' });
+    const target = capture.Target.create(metrics.merge.algorithm, this.endpoint, 500, { project_key: 'my-project-key' });
     const client = capture.client.remote.create(this.endpoint);
     const x = metrics.sample({ x: { value : 25 } });
 

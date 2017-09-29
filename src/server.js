@@ -2,20 +2,30 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const stringify = require('csv-stringify');
 
 const validate = require('./validate');
 
-module.exports.metrics = function() {
-  const database = require('./loki-client').create();
+module.exports.metrics = function(database) {
   const app = express();
+
+  app.use(bodyParser.json({}));
 
   app.get('/metrics', function(req,res) {
     res.setHeader('content-type', 'application/json');
 
-    database.getMetrics(req.query)
+    database.getMetrics(retype(req.query))
       .then(result => Object.assign({}, result, { status: 'success' }))
       .then(result => res.json(result))
       .catch(err => res.status(500).json({ status: 'failure', reason: err.message }));
+  });
+
+  app.get('/metrics/csv', function(req,res) {
+    res.setHeader('content-type', 'text/csv');
+
+    database.getMetrics(Object.assign({path:''}, retype(req.query), {many:true}))
+      .then(result => csvStringify(result.table))
+      .catch(err => res.status(500).send(err.message));
   });
 
   app.post('/metrics', function(req,res) {
@@ -31,15 +41,22 @@ module.exports.metrics = function() {
   return app;
 };
 
-///////////////////////////////////////////////////////////////////////////////
-// listen
-///////////////////////////////////////////////////////////////////////////////
+function retype(o) {
+  o = JSON.parse(JSON.stringify(o));
 
-module.exports.listen = function() {
-  const app = express();
+  for( const k in o ) {
+    if( /^(\-|\+)?([0-9]+)$/.test(o[k]) ) {
+      o[k] = parseInt(o[k]);
+    }
+  }
 
-  app.use(bodyParser.json({}))
-     .use(this.metrics());
+  return o;
+}
 
-  return app.listen.apply(app, arguments);
-};
+function csvStringify(table) {
+  return new Promise(function(resolve,reject) {
+    try {
+      stringify(table, function(err, output) { if(err) { reject(err); } else { resolve(output); } });
+    } catch(err) { reject(err); }
+  });
+}
