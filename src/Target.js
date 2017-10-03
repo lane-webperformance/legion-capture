@@ -45,9 +45,10 @@ function captureMetrics(endpoint, interval, metadata) {
       .then(summary => {
         if( summary )
           return endpoint_client.postMetrics({ data : summary, metadata : Object.assign({}, metadata, { min_timestamp : start, max_timestamp : end }) });
-      }).catch(err => {
+      }).then(() => {}).catch(err => {
         console.error('problem reporting metrics ' + err);  //eslint-disable-line no-console
-      }).then(() => {});
+        return {};
+      });
   };
 }
 
