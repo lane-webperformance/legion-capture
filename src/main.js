@@ -2,8 +2,10 @@
 
 'use strict';
 
+const control = require('./index');
+
 const port = 8000;
 
-require('./index').server.listen(port, function() {
+control.server.metrics(control.client.pouchdb.create('metrics-capture-database')).listen(port, function() {
   console.log('legion-capture listening on port ' + port + '.');
 });
