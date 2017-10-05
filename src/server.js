@@ -9,7 +9,7 @@ const validate = require('./validate');
 module.exports.metrics = function(database) {
   const app = express();
 
-  app.use(bodyParser.json({}));
+  app.use(bodyParser.json({limit: '50mb'}));
 
   app.get('/metrics', function(req,res) {
     res.setHeader('content-type', 'application/json');

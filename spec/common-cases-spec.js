@@ -8,6 +8,8 @@ const uuid = require('uuid');
 
 fs.ensureDirSync('./.unit-test-dbs');
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
 describe('The legion-capture server', function() {
   beforeEach(function() {
     this.port = 4312;
@@ -103,6 +105,31 @@ describe('The legion-capture server', function() {
       }).then(json => {
         expect(json.data.values.x.$avg.avg).toBe(25);
         expect(json.data.values.x.$avg.size).toBe(1);
+      }).then(done).catch(done.fail);
+    });  
+
+    it('can handle enormous sizes of metrics blobs | ' + key, function(done) {
+      const sample_values = {};
+
+      for( let i = 0; i < 10000; i++ )
+        sample_values['i' + i.toString()] = { value : 25, unit : 'puppies', interpretation : 'quantity of puppies logged' };
+
+      const x = metrics.sample(sample_values);
+      const legion_client = this[key];
+      const post = () => legion_client.postMetrics({
+        data: x.summarize(),
+        metadata: { 
+          project_key: 'my-project-key',
+          min_timestamp: 1000,
+          max_timestamp: 2000,
+          unique_id: 'the-same-id-every-time'
+        }
+      });
+
+      post().then(() => {
+        return legion_client.getMetrics({ project_key: 'my-project-key' });
+      }).then(json => {
+        expect(json.data.values.i1265.$avg.avg).toBe(25);
       }).then(done).catch(done.fail);
     });  
   });
