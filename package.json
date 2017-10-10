@@ -1,6 +1,6 @@
 {
   "name": "legion-capture",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "Express.js App to capture metrics.",
   "main": "src/index.js",
   "bin": "src/main.js",
