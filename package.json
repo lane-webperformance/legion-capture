@@ -6,6 +6,7 @@
   "bin": "src/main.js",
   "scripts": {
     "start": "forever --spinSleepTime 250 --minUptime 1000 src/main.js",
+    "inspector": "pouchdb-server --dir ./dbs",
     "test": "eslint ./src/** ./spec/** && jasmine && istanbul cover jasmine",
     "clean": "rimraf node_modules coverage .unit-test-dbs ./legion-capture.pouchdb"
   },
@@ -26,7 +27,7 @@
     "forever": "^0.15.2",
     "fs-extra": "^4.0.1",
     "jsonschema": "^1.2.0",
-    "legion-metrics": "https://github.com/lane-webperformance/legion-metrics#v0.0.46",
+    "legion-metrics": "https://github.com/lane-webperformance/legion-metrics",
     "lokijs": "^1.3.19",
     "node-fetch": "^1.5.3",
     "pouchdb": "^6.3.4",

@@ -142,6 +142,7 @@ describe('The legion-capture server', function() {
       },
       body: JSON.stringify({ data: { foo: 2 } })
     }).then(res => {
+      console.error('Note: this testcase is expected to log an error.');  //eslint-disable-line no-console
       expect(res.ok).toBe(false);
     }).then(done).catch(done.fail);
   });
