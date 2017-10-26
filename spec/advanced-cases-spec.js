@@ -116,44 +116,6 @@ describe('The legion-capture server', function() {
         expect(json.items[3].data.values.x.$avg.size).toBe(4);
       }).then(done).catch(done.fail);
     });
-
-
-    it('can generate tabular export of the data | ' + key, function(done) {
-      const x = metrics.sample({ x: { value : 25 } });
-      const legion_client = this[key];
-      const post = (minute) => legion_client.postMetrics({
-        data: x.summarize(), 
-        metadata: {
-          project_key: 'my-project-key',
-          min_timestamp: minute*60000 + 100,
-          max_timestamp: minute*60000 + 200
-        }
-      });
-
-      const posts = [];
-      posts.push(post(0));
-      posts.push(post(0));
-      posts.push(post(0));
-      posts.push(post(0));
-      posts.push(post(2));
-      posts.push(post(2));
-      posts.push(post(3));
-      posts.push(post(4));
-      posts.push(post(4));
-      posts.push(post(4));
-      posts.push(post(4));
-
-      Promise.all(posts).then(() => {
-        return legion_client.getMetrics({ project_key: 'my-project-key', minutes: true, path:'data.values.x.$min,data.values.x.$avg.avg,data.values.x.$max'});
-      }).then(json => {
-        expect(json.table).toEqual([
-          ['metadata.min_timestamp','metadata.max_timestamp','data.values.x.$min','data.values.x.$avg.avg','data.values.x.$max'],
-          [100,200,25,25,25],
-          [120100,120200,25,25,25],
-          [180100,180200,25,25,25],
-          [240100,240200,25,25,25]]);
-      }).then(done).catch(done.fail);
-    });
   });
 });
 

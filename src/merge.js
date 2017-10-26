@@ -1,14 +1,10 @@
 'use strict';
 
-const R = require('ramda');
-
 const metrics = require('legion-metrics');
 
 const validate = require('./validate');
 
 module.exports = function(blobs, by) {
-  if( by.path )
-    return intoMany(blobs, by).then(bs => intoTable(bs.items, by));
   if( by.many )
     return intoMany(blobs, by);
   else
@@ -41,23 +37,4 @@ function intoMany(blobs, by) {
   blobs = blobs.map(blob => intoSingle([blob],by));
 
   return Promise.all(blobs).then(bs => Object.assign({items:bs}));
-}
-
-function intoTable(blobs, by) {
-  const paths = by.path.split(',');
-  const keys = ['metadata.min_timestamp', 'metadata.max_timestamp'].concat(paths);
-  const result = [];
-
-  result.push(keys);
-
-  blobs.forEach(blob => {
-    const line = [];
-    keys.forEach(key => {
-      line.push(R.path(key.split('.'), blob));
-    });
-
-    result.push(line);
-  });
-
-  return Promise.resolve(JSON.parse(JSON.stringify({table:result})));
 }
