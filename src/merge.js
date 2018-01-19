@@ -5,13 +5,6 @@ const metrics = require('legion-metrics');
 const validate = require('./validate');
 
 module.exports = function(blobs, by) {
-  if( by.many )
-    return intoMany(blobs, by);
-  else
-    return intoSingle(blobs, by);
-};
-
-function intoSingle(blobs, by) {
   if( blobs.length > 1 )
     console.warn('Merging ' + blobs.length + ' blobs.'); // eslint-disable-line no-console
 
@@ -31,10 +24,4 @@ function intoSingle(blobs, by) {
   });
 
   return Promise.resolve(validate(JSON.parse(JSON.stringify(result))));
-}
-
-function intoMany(blobs, by) {
-  blobs = blobs.map(blob => intoSingle([blob],by));
-
-  return Promise.all(blobs).then(bs => Object.assign({items:bs}));
-}
+};

@@ -91,29 +91,30 @@ describe('The legion-capture server', function() {
       });
 
       const posts = [];
-      posts.push(post(0));
-      posts.push(post(0));
-      posts.push(post(0));
-      posts.push(post(0));
-      posts.push(post(2));
-      posts.push(post(2));
-      posts.push(post(3));
-      posts.push(post(4));
-      posts.push(post(4));
-      posts.push(post(4));
-      posts.push(post(4));
+      posts.push(post(9));
+      posts.push(post(9));
+      posts.push(post(9));
+      posts.push(post(9));
+      posts.push(post(11));
+      posts.push(post(11));
+      posts.push(post(12));
+      posts.push(post(13));
+      posts.push(post(13));
+      posts.push(post(13));
+      posts.push(post(13));
 
       Promise.all(posts).then(() => {
-        return legion_client.getMetrics({ project_key: 'my-project-key', minutes: true, many: true });
-      }).then(json => {
-        expect(json.items[0].data.values.x.$avg.avg).toBe(25);
-        expect(json.items[0].data.values.x.$avg.size).toBe(4);
-        expect(json.items[1].data.values.x.$avg.avg).toBe(25);
-        expect(json.items[1].data.values.x.$avg.size).toBe(2);
-        expect(json.items[2].data.values.x.$avg.avg).toBe(25);
-        expect(json.items[2].data.values.x.$avg.size).toBe(1);
-        expect(json.items[3].data.values.x.$avg.avg).toBe(25);
-        expect(json.items[3].data.values.x.$avg.size).toBe(4);
+        return capture.get(legion_client).byMinutes({ project_key: 'my-project-key' });
+      }).then(results => {
+        expect(results.all.data.values.x.$avg.avg).toBe(25);
+        expect(results.minutes[0].data.values.x.$avg.avg).toBe(25);
+        expect(results.minutes[0].data.values.x.$avg.size).toBe(4);
+        expect(results.minutes[2].data.values.x.$avg.avg).toBe(25);
+        expect(results.minutes[2].data.values.x.$avg.size).toBe(2);
+        expect(results.minutes[3].data.values.x.$avg.avg).toBe(25);
+        expect(results.minutes[3].data.values.x.$avg.size).toBe(1);
+        expect(results.minutes[4].data.values.x.$avg.avg).toBe(25);
+        expect(results.minutes[4].data.values.x.$avg.size).toBe(4);
       }).then(done).catch(done.fail);
     });
   });

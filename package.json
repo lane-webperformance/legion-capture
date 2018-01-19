@@ -13,10 +13,10 @@
   "author": "Christopher Lane Hinson <lane@webperformance.com>",
   "license": "APSL-2.0",
   "devDependencies": {
-    "eslint": "^2.10.2",
-    "eslint-plugin-promise": "^3.5.0",
-    "istanbul": "^0.4.3",
-    "jasmine": "^2.4.1",
+    "eslint": "^4.15.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.9.0",
     "pouchdb-server": "^2.3.7",
     "rimraf": "^2.5.2"
   },
@@ -27,9 +27,9 @@
     "fs-extra": "^4.0.1",
     "jsonschema": "^1.2.0",
     "legion-metrics": "https://github.com/lane-webperformance/legion-metrics#v0.0.47",
-    "lokijs": "^1.3.19",
+    "lokijs": "^1.5.1",
     "node-fetch": "^1.5.3",
-    "pouchdb": "^6.3.4",
+    "pouchdb": "^6.4.1",
     "pouchdb-upsert": "^2.2.0",
     "promise-delay": "^2.1.0",
     "uuid": "^3.1.0"

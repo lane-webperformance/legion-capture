@@ -43,7 +43,7 @@ function fixIntegers(o) {
   o = JSON.parse(JSON.stringify(o));
 
   for( const k in o ) {
-    if( /^(\-|\+)?([0-9]+)$/.test(o[k]) ) {
+    if( /^(-|\+)?([0-9]+)$/.test(o[k]) ) {
       o[k] = parseInt(o[k]);
     }
   }

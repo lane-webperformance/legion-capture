@@ -54,8 +54,8 @@ PouchDBStorage.getMetrics = function(by) {
 
     if( typeof by.minutes === 'number' ) {
       query.group_level = 3;
-      query.startkey = [by.project_key, Math.floor(by.minutes/60), by.minutes, Number.MIN_SAFE_INTEGER];
-      query.endkey = [by.project_key, Math.floor(by.minutes/60), by.minutes, Number.MAX_SAFE_INTEGER];
+      query.startkey = [by.project_key, Math.floor(by.minutes/60), Math.floor(by.minutes), Number.MIN_SAFE_INTEGER];
+      query.endkey = [by.project_key, Math.floor(by.minutes/60), Math.floor(by.minutes), Number.MAX_SAFE_INTEGER];
     } else if( by.minutes ) {
       query.group_level = 3;
       query.startkey = [by.project_key, Number.MIN_SAFE_INTEGER];

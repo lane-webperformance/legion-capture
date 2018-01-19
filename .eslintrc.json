@@ -35,6 +35,9 @@
         "promise/no-return-wrap": "error",
         "promise/catch-or-return": "error"
     },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
     "env": {
         "es6": true,
         "node": true,
