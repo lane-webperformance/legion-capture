@@ -106,6 +106,11 @@ describe('The legion-capture server', function() {
       Promise.all(posts).then(() => {
         return capture.get(legion_client).byMinutes({ project_key: 'my-project-key' });
       }).then(results => {
+        // just flatten the promises into one object
+        return results.all.then(all =>
+          Promise.all(results.minutes).then(minutes =>
+            Object.assign({ all, minutes })));
+      }).then(results => {
         expect(results.all.data.values.x.$avg.avg).toBe(25);
         expect(results.minutes[0].data.values.x.$avg.avg).toBe(25);
         expect(results.minutes[0].data.values.x.$avg.size).toBe(4);

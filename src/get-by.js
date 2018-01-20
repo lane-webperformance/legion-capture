@@ -5,24 +5,32 @@ class GetBy {
     this._client = client;
   }
 
-  async byMinutes(query) {
+  byMinutes(query) {
     const result = {
       all: null,
       minutes: []
     };
-    
-    result.all = await this._client.getMetrics(Object.assign({}, query, { minutes: false}));
+   
+    result.all = this._client.getMetrics(Object.assign({}, query, { minutes: false}));
 
-    const begin = Math.floor(result.all.metadata.min_timestamp / 60000);
-    const end = Math.ceil(result.all.metadata.max_timestamp / 60000);
+    let accum_await = result.all;
 
-    let i = 0;
-    for( let minutes = begin; minutes <= end; minutes++ ) {
-      result.minutes[i] = await this._client.getMetrics(Object.assign({}, query, { minutes }));
-      i += 1;
-    }
+    // TODO: replace this mess with async/await
+    // Note that we intentionally request metrics in sequence, as a simple minimal self-throttling behavior
+    const ready = accum_await.then(all => {
+      const begin = Math.floor(all.metadata.min_timestamp / 60000);
+      const end = Math.ceil(all.metadata.max_timestamp / 60000);
 
-    return result;
+      let i = 0;
+      accum_await = result.all;
+      for( let minutes = begin; minutes <= end; minutes++ ) {
+        accum_await = accum_await.then(() => this._client.getMetrics(Object.assign({}, query, { minutes })));
+        result.minutes[i] = accum_await;
+        i += 1;
+      }
+    });
+
+    return ready.then(() => result);
   }
 }
 
