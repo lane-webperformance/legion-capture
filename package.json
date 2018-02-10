@@ -25,7 +25,7 @@
     "forever": "^0.15.2",
     "fs-extra": "^4.0.1",
     "jsonschema": "^1.2.0",
-    "legion-metrics": "https://github.com/lane-webperformance/legion-metrics#v0.0.47",
+    "legion-metrics": "https://github.com/lane-webperformance/legion-metrics#v0.0.49",
     "node-fetch": "^1.5.3",
     "promise-delay": "^2.1.0",
     "uuid": "^3.1.0"
