@@ -2,7 +2,7 @@
 
 const validate = require('jsonschema').validate;
 const os = require('os');
-const package_json = require('../package');
+const package_json = require('../../package');
 const uuid = require('uuid');
 
 const hostname = os.hostname();

@@ -1,6 +1,6 @@
 'use strict';
 
-const client = require('./remote-client');
+const client = require('./client/remote');
 const metrics = require('legion-metrics');
 const delay = require('promise-delay');
 

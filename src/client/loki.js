@@ -3,7 +3,7 @@
 const loki = require('lokijs');
 const metrics = require('legion-metrics');
 
-const validate = require('./validate');
+const validate = require('../common/validate');
 
 const LokiStorage = {
   _type : 'legion-capture:LokiStorage'

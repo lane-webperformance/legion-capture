@@ -3,7 +3,7 @@
 const fetch = require('node-fetch');
 const querystring = require('querystring');
 
-const validate = require('./validate');
+const validate = require('../common/validate');
 
 const Client = {
 };

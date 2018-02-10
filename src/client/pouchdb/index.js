@@ -3,9 +3,9 @@
 const PouchDB = require('pouchdb');
 PouchDB.plugin(require('pouchdb-upsert'));
 
-const mergeResults = require('./merge');
-const addDesignDocuments = require('./pouchdb-views');
-const validate = require('./validate');
+const mergeResults = require('../../common//merge');
+const addDesignDocuments = require('./views');
+const validate = require('../../common/validate');
 
 const PouchDBStorage = {
   _type : 'legion-capture:PouchDBStorage',

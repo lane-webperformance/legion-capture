@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const validate = require('./validate');
+const validate = require('./common/validate');
 
 module.exports.metrics = function(database) {
   const app = express();
