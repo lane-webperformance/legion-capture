@@ -699,9 +699,9 @@ crypto-lite@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/crypto-lite/-/crypto-lite-0.2.0.tgz#3a14cf63038461a5eb85945de78bf04de4daaf73"
 
-csv-stringify@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-2.0.2.tgz#3d1459fe448a8786d86c87278c2c41961ae173ab"
+csv-stringify@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-2.0.4.tgz#9ace220df98ffa7ca91314ac77ff8cba0a08c863"
   dependencies:
     lodash.get "~4.4.2"
 
@@ -2018,13 +2018,13 @@ lazy@~1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/lazy/-/lazy-1.0.11.tgz#daa068206282542c088288e975c297c1ae77b690"
 
-"legion-metrics@https://github.com/lane-webperformance/legion-metrics#v0.0.51":
-  version "0.0.51"
-  resolved "https://github.com/lane-webperformance/legion-metrics#676dfbc407891df871f512ac44a5d22baf982a1f"
+"legion-metrics@https://github.com/lane-webperformance/legion-metrics#v0.0.52":
+  version "0.0.52"
+  resolved "https://github.com/lane-webperformance/legion-metrics#9c5bd4ae74400123e639eec0ab943802a3024b9f"
   dependencies:
-    csv-stringify "^2.0.0"
+    csv-stringify "^2.0.4"
     immutable "^3.8.1"
-    ramda "^0.23.0"
+    ramda "^0.25.0"
 
 level-codec@7.0.1:
   version "7.0.1"
@@ -3218,9 +3218,9 @@ qs@~6.4.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
 
-ramda@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.23.0.tgz#ccd13fff73497a93974e3e86327bfd87bd6e8e2b"
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
 
 random-uuid-v4@0.0.6:
   version "0.0.6"
