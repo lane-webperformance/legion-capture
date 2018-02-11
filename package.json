@@ -1,6 +1,6 @@
 {
   "name": "legion-capture",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "description": "Express.js App to capture metrics.",
   "main": "src/index.js",
   "bin": "src/main.js",
@@ -33,7 +33,7 @@
   "optionalDependencies": {
     "lokijs": "^1.5.1",
     "pouchdb": "^6.4.1",
-    "pouchdb-upsert": "^2.2.0",
-    "pouchdb-server": "^2.3.7"
+    "pouchdb-server": "^2.3.7",
+    "pouchdb-upsert": "^2.2.0"
   }
 }
